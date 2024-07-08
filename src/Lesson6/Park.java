@@ -1,61 +1,51 @@
 package Lesson6;
+
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+
 public class Park {
     private String name;
-    private List<Attraction> attractions;
+    private List<Attraction> attractions = new ArrayList<>();
 
     public Park(String name) {
         this.name = name;
-        this.attractions = new ArrayList<>();
     }
 
-    public void addAttraction(Attraction attraction) {
-        this.attractions.add(attraction);
+    public void addAttraction(String name, String schedule, int price) {
+        attractions.add(new Attraction(name, schedule, price));
     }
 
-    public List<Attraction> getAttractions() {
-        return this.attractions;
+    public void showInfo() {
+        System.out.println("Парк: " + name);
+        for (Attraction attraction : attractions) {
+            System.out.println("Аттракцион: " + attraction.getName());
+            System.out.println("Расписание: " + attraction.getSchedule());
+            System.out.println("Цена: " + attraction.getPrice());
+            System.out.println();
+        }
+    }
+}
+
+class Attraction {
+    private String name;
+    private String schedule;
+    private int price;
+
+    public Attraction(String name, String schedule, int price) {
+        this.name = name;
+        this.schedule = schedule;
+        this.price = price;
     }
 
-    public static void main(String[] args) {
-        Park park = new Park("Затерянный мир");
-        park.addAttraction(new Attraction("Американские горки", "10:00-18:00", 500.0));
-        park.addAttraction(new Attraction("Колесо обозрения", "11:00-19:00", 600.0));
-        park.addAttraction(new Attraction("Лабиринт Потерянного Города", "12:00-20:00", 1000.0));
-        System.out.println("Чудо:" + park.name);
-        System.out.println("Затерянный мир:");
-        Iterator<Attraction> var2 = park.getAttractions().iterator();
-
-        while(var2.hasNext()) {
-            Attraction attraction = var2.next();
-            System.out.println("Затерянный мир " + attraction.getName() + ", Время работы: " + attraction.getWorkingHours() + ", Cost: " + attraction.getCost());
-        }
-
+    public String getName() {
+        return name;
     }
 
-    public static class Attraction {
-        private String name;
-        private String workingHours;
-        private double cost;
+    public String getSchedule() {
+        return schedule;
+    }
 
-        public Attraction(String name, String workingHours, double cost) {
-            this.name = name;
-            this.workingHours = workingHours;
-            this.cost = cost;
-        }
-
-        public String getName() {
-            return this.name;
-        }
-
-        public String getWorkingHours() {
-            return this.workingHours;
-        }
-
-        public double getCost() {
-            return this.cost;
-        }
+    public int getPrice() {
+        return price;
     }
 }
