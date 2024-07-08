@@ -1,36 +1,30 @@
 package Lesson7;
 
-class Rectangle implements Shape {
-    private double width;
-    private double height;
-    private String fillColor;
-    private String borderColor;
+public class Rectangle extends GeometricFigure {
+    public double width;
+    public double length;
 
-    public Rectangle(double width, double height, String fillColor, String borderColor) {
-        this.width = width;
-        this.height = height;
-        this.fillColor = fillColor;
-        this.borderColor = borderColor;
+    public Rectangle(double aSide, double bSide, Color areaColor, Color borderColor) {
+        super(areaColor, borderColor);
+        this.width = aSide;
+        this.length = bSide;
     }
 
     @Override
-    public double getPerimeter() {
-        return 2 * (width + height);
+    public double perimeter() {
+        return 2 * (width + length);
     }
 
     @Override
-    public double getArea() {
-        return width * height;
+    public double area() {
+        return width * length;
     }
 
-    @Override
-    public String getFillColor() {
-        return fillColor;
-    }
-
-    @Override
-    public String getBorderColor() {
-        return borderColor;
+    public void showInfo() {
+        System.out.println("\nПериметр прямоугольника = " + perimeter() +
+                "\nПлощадь прямоугольника = " + area() +
+                "\nЦвет заливки: " + areaColor +
+                "\nЦвет границы: " + borderColor);
     }
 }
 

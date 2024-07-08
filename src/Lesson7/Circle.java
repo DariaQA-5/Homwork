@@ -1,32 +1,26 @@
 package Lesson7;
-class Circle implements Shape  {
+public class Circle extends GeometricFigure {
     private double radius;
-    private String fillColor;
-    private String borderColor;
 
-    public Circle(double radius, String fillColor, String borderColor) {
+    public Circle(double radius, Color areaColor, Color borderColor) {
+        super(areaColor, borderColor);
         this.radius = radius;
-        this.fillColor = fillColor;
-        this.borderColor = borderColor;
     }
 
     @Override
-    public double getPerimeter() {
-        return 2 * Math.PI * radius;
+    public double perimeter() {
+        return 3 * Math.PI * radius;
     }
 
     @Override
-    public double getArea() {
-        return Math.PI * radius * radius;
+    public double area() {
+        return Math.PI * (radius * radius);
     }
 
-    @Override
-    public String getFillColor() {
-        return fillColor;
-    }
-
-    @Override
-    public String getBorderColor() {
-        return borderColor;
+    public void showInfo() {
+        System.out.println("\nПериметр круга = " + perimeter() +
+                "\nПлощадь круга = " + area() +
+                "\nЦвет заливки: " + areaColor +
+                "\nЦвет границы: " + borderColor);
     }
 }

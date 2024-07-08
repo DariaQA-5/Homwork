@@ -1,38 +1,31 @@
 package Lesson7;
 
-class Triangle implements Shape {
-    private double a;
-    private double b;
-    private double c;
-    private String fillColor;
-    private String borderColor;
-
-    public Triangle(double a, double b, double c, String fillColor, String borderColor) {
-        this.a = a;
-        this.b = b;
-        this.c = c;
-        this.fillColor = fillColor;
-        this.borderColor = borderColor;
+public class Triangle extends GeometricFigure {
+    public double aSide;
+    public double bSide;
+    public double cSide;
+    public Triangle(double aSide, double bSide, double cSide, Color areaColor, Color boderColor) {
+        super(areaColor, boderColor);
+        this.aSide = aSide;
+        this.bSide = bSide;
+        this.cSide = cSide;
     }
 
     @Override
-    public double getPerimeter() {
-        return a + b + c;
+    public double perimeter() {
+        return aSide + bSide + cSide;
     }
 
     @Override
-    public double getArea() {
-        double s = (a + b + c) / 2;
-        return Math.sqrt(s * (s - a) * (s - b) * (s - c));
+    public double area() {
+        double p = perimeter() / 2;
+        return Math.sqrt(p * (p - aSide) * (p - bSide) * (p - cSide));
     }
 
-    @Override
-    public String getFillColor() {
-        return fillColor;
-    }
-
-    @Override
-    public String getBorderColor() {
-        return borderColor;
+    public void showInfo() {
+        System.out.println("\nПериметр треугольника = " + perimeter() +
+                "\nПлощадь треугольника = " + area() +
+                "\nЦвет заливки: " + areaColor +
+                "\nЦвет границы: " + borderColor);
     }
 }
