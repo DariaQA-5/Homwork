@@ -10,7 +10,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 
 public class MTSTest {
     private WebDriver driver;
@@ -21,20 +20,19 @@ public class MTSTest {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("https://www.mts.by/");
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         WebElement click = driver.findElement(By.xpath("//button[contains(@class, 'cookie__cancel')]"));
         click.click();
     }
 
 
-    @Test
+    @Test(priority = 1)
     void titleTest() {
         WebElement title = driver.findElement(By.xpath("//h2[text()='Онлайн пополнение ']"));
         Assert.assertEquals(title.getText(), "Онлайн пополнение без комиссии",
                 "Different actual result. Click the link below for details");
     }
 
-    @Test
+    @Test(priority = 2)
     void logoTest() {
         WebElement visa = driver.findElement
                 (By.xpath("//*[@id='pay-section']/div/div/div[2]/section/div/div[2]/ul/li[1]/img"));
@@ -48,9 +46,16 @@ public class MTSTest {
                 (By.xpath("//*[@id='pay-section']/div/div/div[2]/section/div/div[2]/ul/li[3]/img"));
         Assert.assertTrue(masterCard.isDisplayed());
 
+        WebElement maserCardSecure = driver.findElement
+                (By.xpath("//*[@id='pay-section']/div/div/div[2]/section/div/div[2]/ul/li[4]/img"));
+        Assert.assertTrue(maserCardSecure.isDisplayed());
+
+        WebElement belKart = driver.findElement
+                (By.xpath("//*[@id='pay-section']/div/div/div[2]/section/div/div[2]/ul/li[5]/img"));
+        Assert.assertTrue(belKart.isDisplayed());
     }
 
-    @Test
+    @Test(priority = 3)
     void linkTest() {
         WebElement readMore = driver.findElement(By.linkText("Подробнее о сервисе"));
         Assert.assertTrue(readMore.isEnabled());
@@ -58,7 +63,7 @@ public class MTSTest {
         driver.navigate().back();
     }
 
-    @Test
+    @Test(priority = 4)
     void topUpFormTest() {
         WebElement number = driver.findElement(By.xpath("//input[@id='connection-phone']"));
         number.sendKeys("297777777");
