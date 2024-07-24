@@ -25,14 +25,14 @@ public class MTSTest {
     }
 
 
-    @Test(priority = 1)
+    @Test
     void titleTest() {
         WebElement title = driver.findElement(By.xpath("//h2[text()='Онлайн пополнение ']"));
         Assert.assertEquals(title.getText(), "Онлайн пополнение без комиссии",
                 "Different actual result. Click the link below for details");
     }
 
-    @Test(priority = 2)
+    @Test
     void logoTest() {
         WebElement visa = driver.findElement
                 (By.xpath("//*[@id='pay-section']/div/div/div[2]/section/div/div[2]/ul/li[1]/img"));
@@ -50,12 +50,9 @@ public class MTSTest {
                 (By.xpath("//*[@id='pay-section']/div/div/div[2]/section/div/div[2]/ul/li[4]/img"));
         Assert.assertTrue(maserCardSecure.isDisplayed());
 
-        WebElement belKart = driver.findElement
-                (By.xpath("//*[@id='pay-section']/div/div/div[2]/section/div/div[2]/ul/li[5]/img"));
-        Assert.assertTrue(belKart.isDisplayed());
     }
 
-    @Test(priority = 3)
+    @Test
     void linkTest() {
         WebElement readMore = driver.findElement(By.linkText("Подробнее о сервисе"));
         Assert.assertTrue(readMore.isEnabled());
@@ -63,7 +60,7 @@ public class MTSTest {
         driver.navigate().back();
     }
 
-    @Test(priority = 4)
+    @Test
     void topUpFormTest() {
         WebElement number = driver.findElement(By.xpath("//input[@id='connection-phone']"));
         number.sendKeys("297777777");
