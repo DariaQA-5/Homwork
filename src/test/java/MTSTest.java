@@ -25,12 +25,11 @@ public class MTSTest {
         driver.manage().window().maximize();
         driver.get("https://www.mts.by/");
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement
-                (By.xpath("//div[@class='cookie__wrapper']"))));
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement
-                (By.xpath("//button[contains(@class, 'cookie__cancel')]")))).click();
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[@class='cookie__wrapper']"))));
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//button[contains(@class, 'cookie__cancel')]")))).click();
     }
-    @Test// кооректность отображение суммы, номера телефона, реквизитов, наличие иконок платежных систем
+
+    @Test
     void communicationServiceTest() {
         String phoneNumberPlaceholder = wait.until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//input[@id='connection-phone']"))).getAttribute("placeholder");
@@ -45,13 +44,13 @@ public class MTSTest {
                 (By.xpath("//input[@id='connection-email']"))).getAttribute("placeholder");
         Assert.assertEquals(emailFieldText, "E-mail для отправки чека",
                 "Ожидаемый текст внутри незаполненного поля: E-mail для отправки чека");
-
     }
 
-    @Test//домашний интернет
+    @Test
     void homeInternetTest() {
+        clickServiceButton();
         wait.until(ExpectedConditions.elementToBeClickable
-                (By.xpath("//li[@class='select__item']//p[text()='Домашний интернет']"))).click();
+                (By.xpath("//p[@class='select__option'][text()='Домашний интернет']"))).click();
 
         String userNumberPlaceholder = wait.until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//input[@id='internet-phone']"))).getAttribute("placeholder");
@@ -66,13 +65,13 @@ public class MTSTest {
                 (By.xpath("//input[@id='internet-email']"))).getAttribute("placeholder");
         Assert.assertEquals(emailFieldText, "E-mail для отправки чека",
                 "Ожидаемый текст внутри незаполненного поля: E-mail для отправки чека");
-
     }
 
-    @Test//рассрочка
+    @Test
     void installmentPlanTest() {
+        clickServiceButton();
         wait.until(ExpectedConditions.elementToBeClickable
-                (By.xpath("//li[@class='select__item']//p[text()='Рассрочка']"))).click();
+                (By.xpath("//p[@class='select__option'][text()='Рассрочка']"))).click();
 
         String userNumberPlaceholder = wait.until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//input[@id='score-instalment']"))).getAttribute("placeholder");
@@ -87,13 +86,13 @@ public class MTSTest {
                 (By.xpath("//input[@id='instalment-email']"))).getAttribute("placeholder");
         Assert.assertEquals(emailFieldText, "E-mail для отправки чека",
                 "Ожидаемый текст внутри незаполненного поля: E-mail для отправки чека");
-
     }
 
-    @Test//задолженность
+    @Test
     void debtTest() {
+        clickServiceButton();
         wait.until(ExpectedConditions.elementToBeClickable
-                (By.xpath("//li[@class='select__item']//p[text()='Задолженность']"))).click();
+                (By.xpath("//p[@class='select__option'][text()='Задолженность']"))).click();
 
         String userNumberPlaceholder = wait.until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//input[@id='score-arrears']"))).getAttribute("placeholder");
@@ -109,13 +108,13 @@ public class MTSTest {
                 (By.xpath("//input[@id='arrears-email']"))).getAttribute("placeholder");
         Assert.assertEquals(emailFieldText, "E-mail для отправки чека",
                 "Ожидаемый текст внутри незаполненного поля: E-mail для отправки чека");
-
     }
 
-    @Test//услуги связи
+    @Test
     void nextWindowTest() {
+        clickServiceButton();
         wait.until(ExpectedConditions.elementToBeClickable
-                (By.xpath("//li[@class='select__item']//p[text()='Услуги связи']"))).click();
+                (By.xpath("//p[@class='select__option'][text()='Услуги связи']"))).click();
 
         WebElement phoneNumberField = driver.findElement(By.xpath("//*[@id='connection-phone']"));
         WebElement sumField = driver.findElement(By.xpath("//*[@id='connection-sum']"));
@@ -125,15 +124,14 @@ public class MTSTest {
         sumField.sendKeys("10");
         continueButton.click();
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath
-                ("//iframe[@class='bepaid-iframe']")));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//iframe[@class='bepaid-iframe']")));
 
-        Assert.assertEquals("100.00 BYN", wait.until(ExpectedConditions.visibilityOfElementLocated
+        Assert.assertEquals("10.00 BYN", wait.until(ExpectedConditions.visibilityOfElementLocated
                 (By.cssSelector(".pay-description__cost > span:nth-child(1)"))).getText());
-        Assert.assertEquals("Оплата: Услуги связи Номер:37512779123", driver.findElement
+        Assert.assertEquals("Оплата: Услуги связи Номер:375297777777", driver.findElement
                 (By.cssSelector(".pay-description__text > span")).getText());
-        Assert.assertEquals("Оплатить 100.00 BYN", driver.findElement
+        Assert.assertEquals("Оплатить 10.00 BYN", driver.findElement
                 (By.cssSelector(".colored.disabled")).getText());
 
         Assert.assertEquals("Номер карты",
@@ -143,8 +141,7 @@ public class MTSTest {
                 wait.until(ExpectedConditions.presenceOfElementLocated
                         (By.xpath("//label[text()='Срок действия']"))).getText());
         Assert.assertEquals("CVC",
-                wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath
-                        ("//label[text()='CVC']"))).getText());
+                wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//label[text()='CVC']"))).getText());
         Assert.assertEquals("Имя держателя (как на карте)",
                 wait.until(ExpectedConditions.presenceOfElementLocated
                         (By.xpath("//label[text()='Имя держателя (как на карте)']"))).getText());
@@ -152,8 +149,9 @@ public class MTSTest {
         ArrayList<String> paymentIcons = new ArrayList<>(Arrays.
                 asList("assets/images/payment-icons/card-types/mastercard-system.svg",
                         "assets/images/payment-icons/card-types/visa-system.svg",
-                        "assets/images/payment-icons/card-types/mir-system-ru.svg"));
-
+                        "assets/images/payment-icons/card-types/belkart-system.svg",
+                        "assets/images/payment-icons/card-types/mir-system-ru.svg",
+                        "assets/images/payment-icons/card-types/maestro-system.svg"));
         for (String paymentIcon : paymentIcons) {
             Assert.assertTrue(wait.until(ExpectedConditions.visibilityOfElementLocated
                     (By.xpath("//img[@src='" + paymentIcon + "']"))).isDisplayed());
@@ -165,4 +163,8 @@ public class MTSTest {
         driver.quit();
     }
 
+    private void clickServiceButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='select__header']"))).click();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(6));
+    }
 }
